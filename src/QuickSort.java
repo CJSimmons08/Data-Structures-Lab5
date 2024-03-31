@@ -1,3 +1,5 @@
+
+
 public class QuickSort {
 
     /**
@@ -8,7 +10,34 @@ public class QuickSort {
      */
     public static <E extends Comparable<? super E>>
     void quicksort(Iterator<E> begin, Iterator<E> end) {
-        return;  // replace this line with your code
+        if(begin.equals(end)){
+            return;
+        }
+        else{
+            Iterator<E> pivotPos = partition(begin, end);
+            quicksort(begin, pivotPos);
+            pivotPos.advance();
+            quicksort(pivotPos, end);
+        }
     }
+
+    public static <E extends Comparable<? super E>> Iterator<E> partition(Iterator<E> begin, Iterator<E> end){
+        E pivot = Algorithms.last(begin, end).get();
+        Iterator<E> i = begin.clone();
+        Iterator<E> j = begin.clone();
+
+        while(!j.equals(Algorithms.last(begin, end))){
+            if(j.get().compareTo(pivot) <= 0){
+                Algorithms.iter_swap(i , j);
+                i.advance();
+            }
+            j.advance();
+        }
+
+        Algorithms.iter_swap(i, Algorithms.last(begin, end));
+        return i;
+    }
+
+
 
 }
